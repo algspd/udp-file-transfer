@@ -1,17 +1,8 @@
-#include <sys/types.h>
-
-#include <sys/time.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <netdb.h>
 #include <string.h>
 
-#include <sys/uio.h>
-#include <time.h>
-#include <math.h>
 #include "udp.h"
 
 #define ERRORSTRING "unknown error"

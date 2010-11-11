@@ -1,8 +1,5 @@
 #include "udp.h"
 
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
 
 /**************************************************************************/
 /*       send buffer: write data from a buffer into a socket              */
@@ -18,7 +15,6 @@ int send_buf(int sock,struct sockaddr_in *server,char *buf,int buflen){
 }
 
 
-
 /**************************************************************************/
 /*       start up the server: get a socket and test port                  */
 /*       returns -1 for reserved or out-of-range port                     */
@@ -31,13 +27,12 @@ int start_server(int port){
 
   if ((s = socket(AF_INET,SOCK_DGRAM,0)) < 0) {
     // Couldn't create socket
-    if (port > 65535 || port < IPPORT_RESERVED) {
+    if (port > PORT_LAST || port < IPPORT_RESERVED) {
       // Port reserved or out-of-range
       s=-1;
     }
     return(s);
   }
-
   memset((char *)&local,0,sizeof(local));
   local.sin_family = AF_INET;
   local.sin_port = htons((short)port);
@@ -52,6 +47,11 @@ int start_server(int port){
   return(s);
 }
 
+/**************************************************************************/
+/*       receive data from socket                                         */
+/*       write it into buffer from 0 to rbufferlen                        */
+/*  FIXME: If buffer is too small, data beyond buffer limit is lost WITHOUT ERROR */
+/**************************************************************************/
 int receive(int s,char *rbuffer,int rbufferlen){
   struct sockaddr_in remote;
   int rlen;

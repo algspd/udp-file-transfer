@@ -1,25 +1,8 @@
-/*********************************************************************.****/
-/* CS244 file server program -- just returns requested blocks of file     */
-/* in local directory.                                                    */
-/********************************************************************+*****/
 
 /* Compilar con:
-     cc  -lsocket  -lnsl -o sftpd sftpd2.c */
-
-
-#include <sys/types.h>
-
-#include <sys/uio.h>
-
-#include <netdb.h>
-#include <fcntl.h>
-#include <errno.h>
+     cc  -o sftpd sftpd2.c udp.c*/
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
 #include "udp.h"
 
 
