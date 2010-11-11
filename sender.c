@@ -16,7 +16,7 @@ int main (int argc,char **argv){
    char SERVER[MAXNAMELEN],*port,*server1;
    int sock,SERVER_PORT;
    char usage[100]="port@host\n\0";
-   char buf[1000];
+   char buf[10];
 
    /* PARSE COMMAND LINE ARGUMENTS */
    if (argc<2){
@@ -58,7 +58,7 @@ int main (int argc,char **argv){
 
    printf("Starting communication\n\n");
 
-   strcpy(buf,"probandooaeiouaeiouooooouuuuuu\0");
+   strcpy(buf,"probando\0");
   printf("El tamaño de buf es %i\n",sizeof(buf));
    send_buf(sock,&server,buf,sizeof(buf));
 

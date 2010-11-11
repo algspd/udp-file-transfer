@@ -50,14 +50,14 @@ int start_server(int port){
 /**************************************************************************/
 /*       receive data from socket                                         */
 /*       write it into buffer from 0 to rbufferlen                        */
-/*  FIXME: If buffer is too small, data beyond buffer limit is lost WITHOUT ERROR */
+/*       receive() waits until buffer is full                             */
 /**************************************************************************/
 int receive(int s,char *rbuffer,int rbufferlen){
   struct sockaddr_in remote;
   int rlen;
   rlen = sizeof(remote);
   memset(rbuffer,0,sizeof(rbuffer));
-  if (recvfrom(s,rbuffer,rbufferlen,0,(struct sockaddr *)&remote,(socklen_t *)&rlen) < 0) {
+  if (recvfrom(s,rbuffer,rbufferlen,MSG_WAITALL,(struct sockaddr *)&remote,(socklen_t *)&rlen) < 0) {
     return (-1);
   }
   return(0);
