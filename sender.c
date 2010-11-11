@@ -13,6 +13,7 @@
 #include <sys/uio.h>
 #include <time.h>
 #include <math.h>
+# include "udp.h"
 
 #define ERRORSTRING "unknown error"
 #define MAXNAMELEN 256
@@ -75,12 +76,5 @@ int main (int argc,char **argv){
 
 }
 
-int send_buf(int sock,struct sockaddr_in *server,char *buf,int buflen){
-  /* Return -1 if error */
-  printf("El tamaño de buf es %i\n",buflen);
-   if(!(sendto(sock,buf,buflen,0,(struct sockaddr *)server, sizeof(*server)))==buflen){
-      return (-1);
-   }
-   return (0);
-}
+
 
