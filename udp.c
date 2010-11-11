@@ -1,3 +1,8 @@
+#include "udp.h"
+
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 /**************************************************************************/
 /*       send buffer: write data from a buffer into a socket              */
