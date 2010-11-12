@@ -22,7 +22,6 @@
 
 #include "udp.h"
 
-#define ERRORSTRING "unknown error"
 #define MAXNAMELEN 256
 
 int send_buf();
@@ -33,7 +32,7 @@ int main (int argc,char **argv){
    char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
    char usage[100]="port@host\n\0";
-   char buf[10];
+   char buf[1000];
 
    /* PARSE COMMAND LINE ARGUMENTS */
    if (argc<2){
