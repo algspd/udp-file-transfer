@@ -25,12 +25,14 @@ CC=gcc
 CFLAGS=-Wall
 
 all: server sender
-udp.o: udp.c udp.h
-	$(CC) -c -g udp.c $(CFLAGS)
 server: udp.o server.c 
 	$(CC) -o server server.c udp.o $(CFLAGS)
 sender: udp.o sender.c 
 	$(CC) -o sender sender.c udp.o $(CFLAGS)
+udp.o: udp.c udp.h
+	$(CC) -c -g udp.c $(CFLAGS)
+md5.o: md5.c md5.h
+	$(CC) -c -lssl -g md5.c $(CFLAGS)
 clean:
 	rm -f *.o *~
 mrproper: clean
