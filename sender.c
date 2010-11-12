@@ -30,7 +30,7 @@ int send_buf();
 int main (int argc,char **argv){
    struct sockaddr_in server;
    struct hostent *host_info;
-   char SERVER[MAXNAMELEN],*port,*server1;
+   char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
    char usage[100]="port@host\n\0";
    char buf[10];
