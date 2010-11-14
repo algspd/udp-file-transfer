@@ -28,13 +28,9 @@ char *calculate_md5(void *buf, ssize_t buflen){
    EVP_DigestUpdate(&mdctx, buf, (size_t) buflen);
    EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
    EVP_MD_CTX_cleanup(&mdctx);
-   printf("llega 10\n");
    retval=malloc(sizeof(char)*2*MD5_SIZE);
-   printf("llega 11\n");
    for(i = 0; i < MD5_SIZE; i++){
-      printf("llega 12\n");
       sprintf (&retval[2*i],"%02x", md_value[i]);
    }
-   printf("llega 13\n");
    return(retval);
 }

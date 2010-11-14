@@ -69,15 +69,12 @@ int process_requests(int s){
          case 1:
             printf("Tipo 1\n");
             memcpy(&p1,buffer,sizeof(p1));
-            printf("llega 1\n");
             if(check_fgetinfo(p1)){
                printf("Corrupted packet\n");
                exit (1);
             }
             else{
-               printf("llega 2\n");
                print_fgetinfo(p1);
-               printf("llega 3\n");
             }
             break;
          case 2:
