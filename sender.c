@@ -30,7 +30,7 @@ int send_buf();
 int main (int argc,char **argv){
    struct sockaddr_in server;
    struct hostent *host_info;
-   struct fgetinfo *buf;
+   struct fgetinfo *p;
    
    char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
@@ -76,21 +76,13 @@ int main (int argc,char **argv){
 
    printf("Starting communication\n\n");
 
-//    strcpy(buf,"probando\0");
-//   printf("El tamaño de buf es %li\n",sizeof(buf));
-  
-   send_buf(sock,&server,"hola\0",5);
-   buf=get_info("foo");
+   p=get_info("example_path");
    
-   printf("buf vale %i\n",buf);
+   printf("El path enviado es %s\n",p->file_path);
+   printf("El md5 enviado es %s\n",p->md5);
    
-   printf("size es %i\n",sizeof(struct fgetinfo));
+   send_buf(sock,&server,p,sizeof(*p));
    
-   printf("el bufer contiene:\n%c\n",buf->type);
-   printf("llega\n");
-   send_buf(sock,&server,buf,sizeof(struct fgetinfo));
-   
-   printf("llega5\n");
    exit (0);
 
 }

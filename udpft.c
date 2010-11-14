@@ -29,7 +29,6 @@ struct fgetinfo *get_info(char file_path[FILENAME_MAX]){
    strncpy(p->file_path,file_path,FILENAME_MAX);
    memset(p->md5,0,sizeof(p->md5));
    md5=calculate_md5(&p,sizeof(p));
-   strncpy(p->md5,md5,sizeof(md5));
-   printf("p vale %i\n",p);
+   strncpy(p->md5,md5,MD5_SIZE);
    return(p);
 }

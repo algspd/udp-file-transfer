@@ -17,10 +17,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "md5.h"
 #define FRAGMENT_SIZE 1000
 
 typedef char typ_t;
-typedef char md5_t[33];
+typedef char md5_t[MD5_SIZE];
 typedef int  fid_t;
 typedef int  fsi_t;
 typedef int  fex_t;

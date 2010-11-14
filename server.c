@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "udp.h"
-
+#include "udpft.h"
 
 int process_requests();
 
@@ -59,9 +59,15 @@ int main(int argc,char **argv)
 
 int process_requests(int s){
   char buffer[10000];
+  struct fgetinfo p;
+  
   while (1) {
     if(receive(s,buffer,sizeof(buffer))==0){
-      printf("Received data:\n%s\n",buffer);
+      memcpy(&p,buffer,sizeof(p));
+      printf("el bufer contiene:\n - type: %c\n",p.type);
+      printf(" - path: %s\n",p.file_path);
+      printf(" - md5 : %s\n",p.md5);
+      
     }
     else{
       printf("Error receiving\n");

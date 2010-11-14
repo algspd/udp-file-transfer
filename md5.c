@@ -29,7 +29,7 @@ char *calculate_md5(void *buf, ssize_t buflen){
   EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
   EVP_MD_CTX_cleanup(&mdctx);
   retval=calloc(sizeof(char),md_len);
-  for(i = 0; i < 33; i++){
+  for(i = 0; i < MD5_SIZE; i++){
     sprintf (&retval[2*i],"%02x", md_value[i]);
   }
   return(retval);
