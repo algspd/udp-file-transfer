@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #define FRAGMENT_SIZE 1000
 
-typedef char typ_t[1];
+typedef char typ_t;
 typedef char md5_t[33];
 typedef int  fid_t;
 typedef int  fsi_t;
@@ -63,3 +63,10 @@ struct ffrag{
    fra_t fragment;
    md5_t md5;
 };
+
+struct fgetinfo *get_info();
+int get_frag();
+int end();
+
+int send_info();
+int send_frag();

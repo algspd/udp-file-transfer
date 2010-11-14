@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "udp.h"
+#include "udpft.h"
 
 #define MAXNAMELEN 256
 
@@ -29,10 +30,11 @@ int send_buf();
 int main (int argc,char **argv){
    struct sockaddr_in server;
    struct hostent *host_info;
+   struct fgetinfo *buf;
    char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
    char usage[100]="port@host\n\0";
-   char buf[1000];
+//    char buf[1000];
 
    /* PARSE COMMAND LINE ARGUMENTS */
    if (argc<2){
@@ -74,9 +76,12 @@ int main (int argc,char **argv){
 
    printf("Starting communication\n\n");
 
-   strcpy(buf,"probando\0");
-  printf("El tamaño de buf es %li\n",sizeof(buf));
-   send_buf(sock,&server,buf,sizeof(buf));
+//    strcpy(buf,"probando\0");
+//   printf("El tamaño de buf es %li\n",sizeof(buf));
+  
+//    send_buf(sock,&server,buf,sizeof(buf));
+   buf=get_info("foo");
+   send_buf(sock,&server,buf,sizeof(struct fgetinfo));
 
    exit (0);
 

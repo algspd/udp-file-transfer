@@ -17,7 +17,8 @@
 
 #include "md5.h"
 
-char *calculate_md5(const void *buf, ssize_t buflen){
+
+char *calculate_md5(void *buf, ssize_t buflen){
   unsigned char md_value[EVP_MAX_MD_SIZE];
   unsigned int md_len;
   char *retval;

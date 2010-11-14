@@ -15,3 +15,19 @@
    along with "UDP file transfer".  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <string.h>
+
+#include "udpft.h"
+#include "md5.h"
+
+struct fgetinfo *get_info(char file_path[FILENAME_MAX]){
+   char *md5;
+   struct fgetinfo p;
+
+   p.type=(char)1;
+   strncpy(p.file_path,file_path,FILENAME_MAX);
+   memset(p.md5,0,sizeof(p.md5));
+   md5=calculate_md5(&p,sizeof(p));
+   strcpy(p.md5,md5);
+
+}

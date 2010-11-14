@@ -16,6 +16,7 @@
 
 
 1 - Compilation
+2 - Dependencies
 2 - Usage
 
 
@@ -30,3 +31,7 @@
         client		Compile client
         clean		Remove object files and so on
         mrproper	Clean and remove binary files
+
+   2 - DEPENDENCIES
+     - libc
+     - libssl-dev

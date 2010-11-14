@@ -26,8 +26,8 @@ USAGE:
   printf("MD5 is %s",md_value);
 
 */
-
+#include <stdlib.h>
 #include <openssl/evp.h>
 
-char *calculate_md5(const void *buf, ssize_t buflen);
+char *calculate_md5(void *buf, ssize_t buflen);
 

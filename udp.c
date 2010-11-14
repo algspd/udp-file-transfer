@@ -23,7 +23,7 @@
 /*       returns  0 if no error                                            */
 /*       returns -1 for reserved or out-of-range port                     */
 /**************************************************************************/
-int send_buf(int sock,struct sockaddr_in *server,char *buf,int buflen){
+int send_buf(int sock,struct sockaddr_in *server,void *buf,int buflen){
    if(!(sendto(sock,buf,buflen,0,(struct sockaddr *)server, sizeof(*server)))==buflen){
       /* Return -1 if error */
       return (-1);
