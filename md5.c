@@ -19,18 +19,22 @@
 
 
 char *calculate_md5(void *buf, ssize_t buflen){
-  unsigned char md_value[EVP_MAX_MD_SIZE];
-  unsigned int md_len;
-  char *retval;
-  int i;
-  EVP_MD_CTX mdctx;
-  EVP_DigestInit(&mdctx, EVP_md5());
-  EVP_DigestUpdate(&mdctx, buf, (size_t) buflen);
-  EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
-  EVP_MD_CTX_cleanup(&mdctx);
-  retval=calloc(sizeof(char),md_len);
-  for(i = 0; i < MD5_SIZE; i++){
-    sprintf (&retval[2*i],"%02x", md_value[i]);
-  }
-  return(retval);
+   unsigned char md_value[EVP_MAX_MD_SIZE];
+   unsigned int md_len;
+   char *retval;
+   int i;
+   EVP_MD_CTX mdctx;
+   EVP_DigestInit(&mdctx, EVP_md5());
+   EVP_DigestUpdate(&mdctx, buf, (size_t) buflen);
+   EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
+   EVP_MD_CTX_cleanup(&mdctx);
+   printf("llega 10\n");
+   retval=malloc(sizeof(char)*2*MD5_SIZE);
+   printf("llega 11\n");
+   for(i = 0; i < MD5_SIZE; i++){
+      printf("llega 12\n");
+      sprintf (&retval[2*i],"%02x", md_value[i]);
+   }
+   printf("llega 13\n");
+   return(retval);
 }

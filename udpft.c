@@ -44,12 +44,18 @@ void print_fgetinfo(struct fgetinfo p){
 
 int check_fgetinfo(struct fgetinfo p){
    char md5[MD5_SIZE+1];
+   printf("llega 4\n");
    strncpy(md5,p.md5,sizeof(p.md5));
+   printf("llega 5\n");
    memset(p.md5,0,sizeof(p.md5));
+   printf("llega 6\n");
    strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   printf("llega 7\n");
    if (strncmp(p.md5,md5,MD5_SIZE)==0){
+      printf("llega 8\n");
       return(0);
    }
+   printf("llega 9\n");
    return(1);
 }
 
