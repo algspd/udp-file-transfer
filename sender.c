@@ -31,17 +31,17 @@ int main (int argc,char **argv){
    struct sockaddr_in server;
    struct hostent *host_info;
    struct fgetinfo *buf;
+   
    char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
    char usage[100]="port@host\n\0";
-//    char buf[1000];
+
 
    /* PARSE COMMAND LINE ARGUMENTS */
    if (argc<2){
       fprintf(stderr,"Usage: %s %s",*argv,usage);
        return 1;
    }
-   printf("argv1 es %s\n",argv[1]);   
    /* Parse port@host */
    if((SERVER_PORT=atoi(strtok(argv[1],"@")))<=0){
       fprintf(stderr,"Port incorrect\n");
@@ -79,10 +79,18 @@ int main (int argc,char **argv){
 //    strcpy(buf,"probando\0");
 //   printf("El tamaño de buf es %li\n",sizeof(buf));
   
-//    send_buf(sock,&server,buf,sizeof(buf));
+   send_buf(sock,&server,"hola\0",5);
    buf=get_info("foo");
+   
+   printf("buf vale %i\n",buf);
+   
+   printf("size es %i\n",sizeof(struct fgetinfo));
+   
+   printf("el bufer contiene:\n%c\n",buf->type);
+   printf("llega\n");
    send_buf(sock,&server,buf,sizeof(struct fgetinfo));
-
+   
+   printf("llega5\n");
    exit (0);
 
 }

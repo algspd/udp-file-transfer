@@ -58,7 +58,7 @@ int main(int argc,char **argv)
 /**************************************************************************/
 
 int process_requests(int s){
-  char buffer[1000];
+  char buffer[10000];
   while (1) {
     if(receive(s,buffer,sizeof(buffer))==0){
       printf("Received data:\n%s\n",buffer);

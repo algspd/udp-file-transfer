@@ -22,12 +22,14 @@
 
 struct fgetinfo *get_info(char file_path[FILENAME_MAX]){
    char *md5;
-   struct fgetinfo p;
+   struct fgetinfo *p;
 
-   p.type=(char)1;
-   strncpy(p.file_path,file_path,FILENAME_MAX);
-   memset(p.md5,0,sizeof(p.md5));
+   p=malloc(sizeof(struct fgetinfo));
+   p->type='a';
+   strncpy(p->file_path,file_path,FILENAME_MAX);
+   memset(p->md5,0,sizeof(p->md5));
    md5=calculate_md5(&p,sizeof(p));
-   strcpy(p.md5,md5);
-
+   strncpy(p->md5,md5,sizeof(md5));
+   printf("p vale %i\n",p);
+   return(p);
 }
