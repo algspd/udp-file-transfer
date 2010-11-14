@@ -78,7 +78,6 @@ int main (int argc,char **argv){
    printf("Starting communication\n\n");
 
    p1=get_info("example_path");
-   
    send_buf(sock,&server,p1,sizeof(*p1));
    
    p2=get_frag(7,42);

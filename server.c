@@ -74,7 +74,6 @@ int process_requests(int s){
          case 2:
             printf("Tipo 2\n");
             memcpy(&p2,buffer,sizeof(p2));
-            printf("llega\n");
             print_fgetfrag(p2);
             break;
          default:

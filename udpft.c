@@ -108,3 +108,26 @@ void print_finfo(struct finfo p){
    printf(" - md5: %s\n",p.md5);
 }
 
+/* FFRAG */
+
+struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment){
+   char *md5;
+   struct ffrag *p;
+   p=malloc(sizeof(struct ffrag));
+   p->type=5;
+   p->file_id=file_id;
+   p->offset=offset;
+   strncpy(p->fragment,fragment,FRAGMENT_SIZE);
+   // set md5 to 0
+   memset(p->md5,0,sizeof(p->md5));
+   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   return(p);
+}
+void print_ffrag(struct ffrag p){
+   printf("Packet:\n - type: %c\n",p.type+'0');
+   printf(" - file id: %i\n",p.file_id);
+   printf(" - offset: %i\n",p.offset);
+   printf(" - fragment: Better not to print that\n");
+   printf(" - md5: %s\n",p.md5);
+}
+
