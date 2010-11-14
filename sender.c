@@ -30,7 +30,8 @@ int send_buf();
 int main (int argc,char **argv){
    struct sockaddr_in server;
    struct hostent *host_info;
-   struct fgetinfo *p;
+   struct fgetinfo *p1;
+   struct fgetfrag *p2;
    
    char SERVER[MAXNAMELEN],*server1;
    int sock,SERVER_PORT;
@@ -76,12 +77,12 @@ int main (int argc,char **argv){
 
    printf("Starting communication\n\n");
 
-   p=get_info("example_path");
+   p1=get_info("example_path");
    
-   printf("El path enviado es %s\n",p->file_path);
-   printf("El md5 enviado es %s\n",p->md5);
+   send_buf(sock,&server,p1,sizeof(*p1));
    
-   send_buf(sock,&server,p,sizeof(*p));
+   p2=get_frag(7,42);
+   send_buf(sock,&server,p2,sizeof(*p2));
    
    exit (0);
 

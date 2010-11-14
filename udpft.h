@@ -66,7 +66,7 @@ struct ffrag{
 };
 
 struct fgetinfo *get_info();
-int get_frag();
+struct fgetfrag *get_frag();
 int end();
 
 int send_info();

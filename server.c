@@ -59,14 +59,28 @@ int main(int argc,char **argv)
 
 int process_requests(int s){
   char buffer[10000];
-  struct fgetinfo p;
+  struct fgetinfo p1;
+  struct fgetfrag p2;
   
   while (1) {
     if(receive(s,buffer,sizeof(buffer))==0){
-      memcpy(&p,buffer,sizeof(p));
-      printf("el bufer contiene:\n - type: %c\n",p.type);
-      printf(" - path: %s\n",p.file_path);
-      printf(" - md5 : %s\n",p.md5);
+      
+      switch (packetType(buffer)){
+         case 1:
+            printf("Tipo 1\n");
+            memcpy(&p1,buffer,sizeof(p1));
+            print_fgetinfo(p1);
+            break;
+         case 2:
+            printf("Tipo 2\n");
+            memcpy(&p2,buffer,sizeof(p2));
+            printf("llega\n");
+            print_fgetfrag(p2);
+            break;
+         default:
+            printf("Unknown packet received\n");
+      }
+
       
     }
     else{
