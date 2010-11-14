@@ -26,14 +26,13 @@ int packetType(char *p){
 
 /* FGETINFO */
 struct fgetinfo *get_info(char file_path[FILENAME_MAX]){
-   char *md5;
    struct fgetinfo *p;
    p=malloc(sizeof(struct fgetinfo));
    p->type=1;
    strncpy(p->file_path,file_path,FILENAME_MAX);
    // set md5 to 0
-   memset(p->md5,0,sizeof(p->md5));
-   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   memset(p->md5,0,MD5_SIZE);
+   strncpy(p->md5,calculate_md5(p,sizeof(*p)),MD5_SIZE);
    return(p);
 }
 
@@ -43,10 +42,20 @@ void print_fgetinfo(struct fgetinfo p){
    printf(" - md5: %s\n",p.md5);
 }
 
+int check_fgetinfo(struct fgetinfo p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,sizeof(p.md5));
+   memset(p.md5,0,sizeof(p.md5));
+   strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   if (strncmp(p.md5,md5,MD5_SIZE)==0){
+      return(0);
+   }
+   return(1);
+}
+
 
 /* FGETFRAG */
 struct fgetfrag *get_frag(fid_t file_id,off_t offset){
-   char *md5;
    struct fgetfrag *p;
    p=malloc(sizeof(struct fgetfrag));
    p->type=2;
@@ -65,10 +74,20 @@ void print_fgetfrag(struct fgetfrag p){
    printf(" - md5: %s\n",p.md5);
 }
 
+int check_fgetfrag(struct fgetfrag p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,sizeof(p.md5));
+   memset(p.md5,0,sizeof(p.md5));
+   strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   if (strcmp(p.md5,md5)==0){
+      return(0);
+   }
+   return(1);
+}
+
 /* FEND */
 
 struct fend *get_fend(fid_t file_id){
-   char *md5;
    struct fend *p;
    p=malloc(sizeof(struct fend));
    p->type=3;
@@ -79,16 +98,26 @@ struct fend *get_fend(fid_t file_id){
    return(p);
 }
 
-void print_fget_fend(struct fgetfrag p){
+void print_fend(struct fend p){
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file id: %i\n",p.file_id);
    printf(" - md5: %s\n",p.md5);
 }
 
+int check_fend(struct fend p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   memset(p.md5,0,sizeof(p.md5));
+   strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   if (strcmp(p.md5,md5)==0){
+      return(0);
+   }
+   return(1);
+}
+
 /* FINFO */
 
 struct finfo *get_sinfo(int file_exist,int file_id,int file_size){
-   char *md5;
    struct finfo *p;
    p=malloc(sizeof(struct finfo));
    p->type=4;
@@ -108,10 +137,20 @@ void print_finfo(struct finfo p){
    printf(" - md5: %s\n",p.md5);
 }
 
+int check_finfo(struct finfo p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   memset(p.md5,0,sizeof(p.md5));
+   strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   if (strcmp(p.md5,md5)==0){
+      return(0);
+   }
+   return(1);
+}
+
 /* FFRAG */
 
 struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment){
-   char *md5;
    struct ffrag *p;
    p=malloc(sizeof(struct ffrag));
    p->type=5;
@@ -123,6 +162,7 @@ struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment){
    strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
    return(p);
 }
+
 void print_ffrag(struct ffrag p){
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file id: %i\n",p.file_id);
@@ -131,3 +171,13 @@ void print_ffrag(struct ffrag p){
    printf(" - md5: %s\n",p.md5);
 }
 
+int check_ffrag(struct ffrag p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   memset(p.md5,0,sizeof(p.md5));
+   strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   if (strcmp(p.md5,md5)==0){
+      return(0);
+   }
+   return(1);
+}

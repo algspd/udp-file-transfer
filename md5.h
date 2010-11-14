@@ -28,7 +28,7 @@ USAGE:
 */
 #include <stdlib.h>
 #include <openssl/evp.h>
-#define MD5_SIZE 33
+#define MD5_SIZE 32
 
 char *calculate_md5(void *buf, ssize_t buflen);
 

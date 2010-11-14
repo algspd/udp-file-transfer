@@ -79,9 +79,10 @@ int main (int argc,char **argv){
 
    p1=get_info("example_path");
    send_buf(sock,&server,p1,sizeof(*p1));
+   print_fgetinfo(*p1);
    
-   p2=get_frag(7,42);
-   send_buf(sock,&server,p2,sizeof(*p2));
+//    p2=get_frag(7,42);
+//    send_buf(sock,&server,p2,sizeof(*p2));
    
    exit (0);
 

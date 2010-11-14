@@ -69,12 +69,22 @@ int process_requests(int s){
          case 1:
             printf("Tipo 1\n");
             memcpy(&p1,buffer,sizeof(p1));
-            print_fgetinfo(p1);
+            if(check_fgetinfo(p1)){
+               printf("Corrupted packet\n");
+            }
+            else{
+               print_fgetinfo(p1);
+            }
             break;
          case 2:
             printf("Tipo 2\n");
             memcpy(&p2,buffer,sizeof(p2));
-            print_fgetfrag(p2);
+            if(check_fgetfrag(p2)){
+               printf("Corrupted packet\n");
+            }
+            else{
+               print_fgetfrag(p2);
+            }
             break;
          default:
             printf("Unknown packet received\n");
