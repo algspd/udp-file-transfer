@@ -75,7 +75,7 @@ int main (int argc,char **argv){
    printf("Starting communication\n\n");
 
    strcpy(buf,"probando\0");
-  printf("El tamaño de buf es %i\n",sizeof(buf));
+  printf("El tamaño de buf es %li\n",sizeof(buf));
    send_buf(sock,&server,buf,sizeof(buf));
 
    exit (0);
