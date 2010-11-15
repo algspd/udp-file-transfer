@@ -63,6 +63,7 @@ int process_requests(int s){
   struct sockaddr remote;
   int rlen;
   struct fgetinfo p1;
+  struct fgetinfo *pp1;
   struct fgetfrag p2;
   
   while (1) {
@@ -80,6 +81,9 @@ int process_requests(int s){
             }
             else{
                print_fgetinfo(p1);
+                  pp1=get_info("path_2");
+                  send_buf(s,(struct sockaddr_in *)&remote,pp1,sizeof(*pp1));
+                  print_fgetinfo(*pp1);
             }
             break;
          case 2:
