@@ -17,6 +17,8 @@
 
 #include "udp.h"
 
+#include <stdio.h>
+
 
 /**************************************************************************/
 /*       send buffer: write data from a buffer into a socket              */
@@ -78,4 +80,38 @@ int receive(int s,char *rbuffer,int rbufferlen){
     return (-1);
   }
   return(0);
+}
+
+/**************************************************************************/
+/*       start client                                                     */
+/*       return 1 -> error creating socket                                */
+/*       return 2 -> unknown host                                         */
+/**************************************************************************/
+int start_client(int *sock,struct sockaddr_in *server,int port,char *host){
+   
+   struct hostent *hostinfo;
+   char hostname[1024];
+   if(port<=0){
+      return(1);
+   }
+   /* CREATE SOCKET AND SET SERVER INFO */
+   printf("port: %i\n",port);
+   *sock=socket(AF_INET, SOCK_DGRAM, 0);
+   if (*sock < 1)
+   {
+      return 1;
+   }
+   strcpy(hostname,host);
+   hostinfo=gethostbyname(hostname);
+   if (hostinfo==NULL) 
+   {
+      return 2;
+   }
+   server->sin_family=AF_INET;
+   memcpy((char *)&server->sin_addr,
+          hostinfo->h_addr,
+          hostinfo->h_length);
+   memset(&server->sin_zero, '\0', 8);
+   server->sin_port=htons(port);
+   return(0);
 }

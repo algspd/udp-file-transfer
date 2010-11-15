@@ -37,9 +37,12 @@ struct fgetinfo *get_info(char file_path[FILENAME_MAX]){
 }
 
 void print_fgetinfo(struct fgetinfo p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   md5[MD5_SIZE]='\0';
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - path: %s\n",p.file_path);
-   printf(" - md5: %s\n",p.md5);
+   printf(" - md5: %s\n",md5);
 }
 
 int check_fgetinfo(struct fgetinfo p){
@@ -68,10 +71,13 @@ struct fgetfrag *get_frag(fid_t file_id,off_t offset){
 }
 
 void print_fgetfrag(struct fgetfrag p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   md5[MD5_SIZE]='\0';
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file id: %i\n",p.file_id);
-   printf(" - offset: %i\n",p.offset);
-   printf(" - md5: %s\n",p.md5);
+   printf(" - offset: %i\n",(int)p.offset);
+   printf(" - md5: %s\n",md5);
 }
 
 int check_fgetfrag(struct fgetfrag p){
@@ -99,9 +105,12 @@ struct fend *get_fend(fid_t file_id){
 }
 
 void print_fend(struct fend p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   md5[MD5_SIZE]='\0';
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file id: %i\n",p.file_id);
-   printf(" - md5: %s\n",p.md5);
+   printf(" - md5: %s\n",md5);
 }
 
 int check_fend(struct fend p){
@@ -130,11 +139,14 @@ struct finfo *get_sinfo(int file_exist,int file_id,int file_size){
    return(p);
 }
 void print_finfo(struct finfo p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   md5[MD5_SIZE]='\0';
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file exist: %i\n",p.file_exist);
    printf(" - file id: %i\n",p.file_id);
    printf(" - file size: %i\n",p.file_size);
-   printf(" - md5: %s\n",p.md5);
+   printf(" - md5: %s\n",md5);
 }
 
 int check_finfo(struct finfo p){
@@ -164,11 +176,14 @@ struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment){
 }
 
 void print_ffrag(struct ffrag p){
+   char md5[MD5_SIZE+1];
+   strncpy(md5,p.md5,MD5_SIZE);
+   md5[MD5_SIZE]='\0';
    printf("Packet:\n - type: %c\n",p.type+'0');
    printf(" - file id: %i\n",p.file_id);
-   printf(" - offset: %i\n",p.offset);
+   printf(" - offset: %i\n",(int)p.offset);
    printf(" - fragment: Better not to print that\n");
-   printf(" - md5: %s\n",p.md5);
+   printf(" - md5: %s\n",md5);
 }
 
 int check_ffrag(struct ffrag p){

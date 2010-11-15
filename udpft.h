@@ -65,9 +65,33 @@ struct ffrag{
    md5_t md5;
 };
 
-struct fgetinfo *get_info();
-struct fgetfrag *get_frag();
-int end();
+int packetType(char *p);
 
-int send_info();
-int send_frag();
+/* FGETINFO */
+struct fgetinfo *get_info(char file_path[FILENAME_MAX]);
+void print_fgetinfo(struct fgetinfo p);
+int check_fgetinfo(struct fgetinfo p);
+
+/* FGETFRAG */
+struct fgetfrag *get_frag(fid_t file_id,off_t offset);
+void print_fgetfrag(struct fgetfrag p);
+int check_fgetfrag(struct fgetfrag p);
+
+/* FEND */
+
+struct fend *get_fend(fid_t file_id);
+void print_fend(struct fend p);
+int check_fend(struct fend p);
+
+/* FINFO */
+
+struct finfo *get_sinfo(int file_exist,int file_id,int file_size);
+void print_finfo(struct finfo p);
+int check_finfo(struct finfo p);
+
+
+/* FFRAG */
+
+struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment);
+void print_ffrag(struct ffrag p);
+int check_ffrag(struct ffrag p);

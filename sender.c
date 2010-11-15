@@ -15,9 +15,9 @@
    along with "UDP file transfer".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <netdb.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+
 #include <string.h>
 
 #include "udp.h"
@@ -29,12 +29,12 @@ int send_buf();
 
 int main (int argc,char **argv){
    struct sockaddr_in server;
-   struct hostent *host_info;
+
    struct fgetinfo *p1;
-   struct fgetfrag *p2;
+//    struct fgetfrag *p2;
    
-   char SERVER[MAXNAMELEN],*server1;
-   int sock,SERVER_PORT;
+   char *host;
+   int sock,port;
    char usage[100]="port@host\n\0";
 
 
@@ -44,36 +44,16 @@ int main (int argc,char **argv){
        return 1;
    }
    /* Parse port@host */
-   if((SERVER_PORT=atoi(strtok(argv[1],"@")))<=0){
-      fprintf(stderr,"Port incorrect\n");
-      exit(1);
-   }
+   port=atoi(strtok(argv[1],"@"));
 
-   server1=strtok(NULL,"@");
-   strcpy(SERVER,server1);
+   host=strtok(NULL,"@");
    
    /* PRINT PARSED ARGUMENTS */
-   printf("Port %i<--\n",SERVER_PORT);
-   printf("Server %s<--\n",SERVER);
+   printf("Port %i<--\n",port);
+   printf("Server %s<--\n",host);
    
-   
-   /* CREATE SOCKET AND SET SERVER INFO */
-   sock=socket(AF_INET, SOCK_DGRAM, 0);
-   if (sock < 1) 
-   {
-      fprintf(stderr,"Error creating socket");
-      return 1;
-   }
-   host_info=gethostbyname(SERVER);
-   if (host_info==NULL) 
-   {
-      fprintf(stderr, "Unknown host: %s\n",SERVER);
-      return 1;
-   }
-   server.sin_family=AF_INET;
-   memcpy((char *)&server.sin_addr, host_info->h_addr, host_info->h_length);
-   memset(&server.sin_zero, '\0', 8);
-   server.sin_port=htons(SERVER_PORT);
+   start_client(&sock,&server,port,host);
+
 
    printf("Starting communication\n\n");
 

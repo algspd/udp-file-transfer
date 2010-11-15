@@ -20,11 +20,13 @@
    #include <errno.h>
    #include <string.h>
    #include <arpa/inet.h>
+   #include <netdb.h>
 #endif
 #ifndef PORT_LAST
    #define PORT_LAST 65535
 #endif
 
-extern int send_buf(int sock,struct sockaddr_in *server,void *buf,int buflen);
-extern int start_server(int port);
-extern int receive(int s,char *rbuffer,int rbufferlen);
+int send_buf(int sock,struct sockaddr_in *server,void *buf,int buflen);
+int start_server(int port);
+int receive(int s,char *rbuffer,int rbufferlen);
+int start_client(int *sock,struct sockaddr_in *server,int port,char *host);
