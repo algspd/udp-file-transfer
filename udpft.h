@@ -28,19 +28,20 @@ typedef int  fex_t;
 typedef char fra_t[FRAGMENT_SIZE];
 
 /* CLIENT */
+/* #1 */
 struct fgetinfo{
    typ_t type;
    char  file_path[FILENAME_MAX];
    md5_t md5;
 };
-
+/* #2 */
 struct fgetfrag{
    typ_t type;
    fid_t file_id;
    off_t offset;
    md5_t md5;
 };
-
+/* #3 */
 struct fend{
    typ_t type;
    fid_t file_id;
@@ -48,7 +49,7 @@ struct fend{
 };
 
 /* SERVER */
-
+/* #4 */
 struct finfo{
    typ_t type;
    fex_t file_exist;
@@ -56,7 +57,7 @@ struct finfo{
    fsi_t file_size;
    md5_t md5;
 };
-
+/* #5 */
 struct ffrag{
    typ_t type;
    fid_t file_id;

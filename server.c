@@ -17,6 +17,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 
 #include "udp.h"
 #include "udpft.h"
@@ -63,48 +65,63 @@ int process_requests(int s){
   struct sockaddr remote;
   int rlen;
   struct fgetinfo p1;
-  struct fgetinfo *pp1;
+//   struct fgetinfo *pp1;
   struct fgetfrag p2;
+  struct finfo *p4;
+  FILE *f;
   
-  while (1) {
-//     struct sockaddr *src_addr, socklen_t *addrlenq
-    if(recvfrom(s,buffer,sizeof(buffer),0,(struct sockaddr *)&remote,(socklen_t *)&rlen)){
-//     if(receive(s,buffer,sizeof(buffer))==0){
-      
-      switch (packetType(buffer)){
-         case 1:
-            printf("Tipo 1\n");
-            memcpy(&p1,buffer,sizeof(p1));
-            if(check_fgetinfo(p1)){
-               printf("Corrupted packet\n");
-               exit (1);
-            }
-            else{
-               print_fgetinfo(p1);
-                  pp1=get_info("path_2");
-                  send_buf(s,(struct sockaddr_in *)&remote,pp1,sizeof(*pp1));
-                  print_fgetinfo(*pp1);
-            }
-            break;
-         case 2:
-            printf("Tipo 2\n");
-            memcpy(&p2,buffer,sizeof(p2));
-            if(check_fgetfrag(p2)){
-               printf("Corrupted packet\n");
-            }
-            else{
-               print_fgetfrag(p2);
-            }
-            break;
-         default:
-            printf("Unknown packet received\n");
-      }
+   while (1) {
+      rlen = sizeof(remote);
+      if((recvfrom(s,buffer,sizeof(buffer),0,(struct sockaddr *)&remote,(socklen_t *)&rlen))>0){
+         switch (packetType(buffer)){
+            case 1:
+               printf("Tipo 1\n");
+               memcpy(&p1,buffer,sizeof(p1));
+               if(check_fgetinfo(p1)){
+                  printf("Corrupted packet\n");
+                  exit (1);
+               }
+               else{
+                  print_fgetinfo(p1);
+                  printf("Now sending answer\n");
+                  strcpy(buffer,"path_2");
+                  //check if file exists and can be open
+                  printf("El fichero es: %s",p1.file_path);
+                  if((f=(FILE *)fopen(p1.file_path,"r"))==NULL){
+                     // If file not found tell the client
+                     p4=get_sinfo(0,0,0);
+                  }
+                  else{
+                     // If file found, tell the client info about it
+                     fseek(f, 0, SEEK_END); // seek to end of file
+                     p4=get_sinfo(1,1,ftell(f));
+                     fseek(f, 0, SEEK_SET); // seek back to beginning of file
+                  }
+                  // Send info about the file
+                  if(reply(s,&remote,rlen,p4,sizeof(*p4))){
+                     printf("Error sending\n");
+                  }
+               }
+               break;
+            case 2:
+               printf("Tipo 2\n");
+               memcpy(&p2,buffer,sizeof(p2));
+               if(check_fgetfrag(p2)){
+                  printf("Corrupted packet\n");
+               }
+               else{
+                  print_fgetfrag(p2);
+               }
+               break;
+            default:
+               printf("Unknown packet received\n");
+         }
 
-      
-    }
-    else{
-      printf("Error receiving\n");
-    }
+         
+      }
+      else{
+         printf("Error receiving\n");
+      }
   }
 }
 

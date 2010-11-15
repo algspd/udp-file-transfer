@@ -30,3 +30,4 @@ int send_buf(int sock,struct sockaddr_in *server,void *buf,int buflen);
 int start_server(int port);
 int receive(int s,char *rbuffer,int rbufferlen);
 int start_client(int *sock,struct sockaddr_in *server,int port,char *host);
+int reply(int sock,struct sockaddr *remote,int rlen,void *buf,int buflen);

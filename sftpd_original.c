@@ -227,18 +227,18 @@ unsigned                        flags;
     req_count++;
 
     /* print request if in verbose mode */
-    if (flags & F_VERBOSE)
-      { print_request(&rbuffer,retval,&remote); }
-
-    if ((req_count == 20) && (flags & F_EXIT)) 
-      { return; }
-
-    /* fill in answer */
-    if (fill_abuffer(&rbuffer,retval,&abuffer,&sendlen,flags) != 0)
-      { continue; }
-
-    if (mutilate_packet(s, &abuffer, &sendlen, &remote, flags) != 0)
-      { continue; }
+//     if (flags & F_VERBOSE)
+//       { print_request(&rbuffer,retval,&remote); }
+// 
+//     if ((req_count == 20) && (flags & F_EXIT)) 
+//       { return; }
+// 
+//     /* fill in answer */
+//     if (fill_abuffer(&rbuffer,retval,&abuffer,&sendlen,flags) != 0)
+//       { continue; }
+// 
+//     if (mutilate_packet(s, &abuffer, &sendlen, &remote, flags) != 0)
+//       { continue; }
 
     /* ship it */
     if (sendto(s,(char *)&abuffer,sendlen,0,(struct sockaddr *)&remote,

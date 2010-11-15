@@ -15,9 +15,6 @@
    along with "UDP file transfer".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// #include <stdio.h>
-// #include <stdlib.h>
-
 #include <string.h>
 
 #include "udp.h"
@@ -29,12 +26,13 @@ int send_buf();
 
 int main (int argc,char **argv){
    struct sockaddr_in server;
-
-   struct fgetinfo *p1;
+   struct fgetinfo    *p1;
+   struct finfo       p4;
+   char               buffer[1000];
 //    struct fgetfrag *p2;
    
    char *host;
-   int sock,port;
+   int sock,port,connected;
    char usage[100]="port@host\n\0";
 
 
@@ -54,12 +52,30 @@ int main (int argc,char **argv){
    
    start_client(&sock,&server,port,host);
 
-
    printf("Starting communication\n\n");
 
-   p1=get_info("example_path");
-   send_buf(sock,&server,p1,sizeof(*p1));
-   print_fgetinfo(*p1);
+   p1=get_info("sender");
+   connected=0;
+   while (connected<3){
+      send_buf(sock,&server,p1,sizeof(*p1));
+      print_fgetinfo(*p1);
+      
+      if(receive(sock,buffer,sizeof(buffer))==0){
+         memcpy(&p4,buffer,sizeof(p4));
+         if(!check_finfo(p4)){
+            connected=4;
+            print_finfo(p4);
+            if (p4.file_exist==1){
+               //file is open with p4.file_id
+               //add to proper struct and start transfer
+            }
+         }
+         connected++;
+      }
+   }
+   if (connected==3){
+      printf("Connection error\n");
+   }
    
 //    p2=get_frag(7,42);
 //    send_buf(sock,&server,p2,sizeof(*p2));

@@ -66,7 +66,7 @@ struct fgetfrag *get_frag(fid_t file_id,off_t offset){
    p->offset=offset;
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));
-   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   strncpy(p->md5,calculate_md5(p,sizeof(*p)),MD5_SIZE);
    return(p);
 }
 
@@ -100,7 +100,7 @@ struct fend *get_fend(fid_t file_id){
    p->file_id=file_id;
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));
-   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   strncpy(p->md5,calculate_md5(p,sizeof(*p)),MD5_SIZE);
    return(p);
 }
 
@@ -135,7 +135,7 @@ struct finfo *get_sinfo(int file_exist,int file_id,int file_size){
    p->file_size=file_size;
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));
-   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   strncpy(p->md5,calculate_md5(p,sizeof(*p)),MD5_SIZE);
    return(p);
 }
 void print_finfo(struct finfo p){
@@ -171,7 +171,7 @@ struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment){
    strncpy(p->fragment,fragment,FRAGMENT_SIZE);
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));
-   strncpy(p->md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
+   strncpy(p->md5,calculate_md5(p,sizeof(*p)),MD5_SIZE);
    return(p);
 }
 

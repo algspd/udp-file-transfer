@@ -115,3 +115,19 @@ int start_client(int *sock,struct sockaddr_in *server,int port,char *host){
    server->sin_port=htons(port);
    return(0);
 }
+
+
+
+/**************************************************************************/
+/*       reply                                                            */
+/*       return 1 -> error creating socket                                */
+/*       return 2 -> unknown host                                         */
+/**************************************************************************/
+int reply(int sock,struct sockaddr *remote,int rlen,void *buf,int buflen){
+   if(sendto(sock,buf,buflen,0,remote,rlen)!=buflen){
+      return(1);
+   }
+   return(0);
+}
+
+
