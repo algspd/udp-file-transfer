@@ -60,11 +60,15 @@ int main(int argc,char **argv)
 
 int process_requests(int s){
   char buffer[10000];
+  struct sockaddr remote;
+  int rlen;
   struct fgetinfo p1;
   struct fgetfrag p2;
   
   while (1) {
-    if(receive(s,buffer,sizeof(buffer))==0){
+//     struct sockaddr *src_addr, socklen_t *addrlenq
+    if(recvfrom(s,buffer,sizeof(buffer),0,(struct sockaddr *)&remote,(socklen_t *)&rlen)){
+//     if(receive(s,buffer,sizeof(buffer))==0){
       
       switch (packetType(buffer)){
          case 1:

@@ -22,13 +22,15 @@
 # 
 
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -lssl
 
 all: server sender
-server: udp.o
-	$(CC) -o server server.c udp.o $(CFLAGS)
-sender: udp.o
-	$(CC) -o sender sender.c udp.o $(CFLAGS)
+server: udp.o udpft.o md5.o
+	$(CC) -o server server.c udp.o udpft.o md5.o $(CFLAGS)
+sender: udp.o udpft.o md5.o
+	$(CC) -o sender sender.c udp.o udpft.o md5.o $(CFLAGS)
+udpft.o: md5.o
+	$(CC) -c -g udpft.c md5.o $(CFLAGS)
 udp.o:
 	$(CC) -c -g udp.c $(CFLAGS)
 md5.o:
