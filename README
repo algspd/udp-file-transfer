@@ -29,6 +29,7 @@
      - Compilation options:
         all		Compile server and client
         client		Compile client
+        server		Compile server
         clean		Remove object files and so on
         mrproper	Clean and remove binary files
 
