@@ -95,7 +95,6 @@ int start_client(int *sock,struct sockaddr_in *server,int port,char *host){
       return(1);
    }
    /* CREATE SOCKET AND SET SERVER INFO */
-   printf("port: %i\n",port);
    *sock=socket(AF_INET, SOCK_DGRAM, 0);
    if (*sock < 1)
    {

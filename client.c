@@ -22,33 +22,25 @@
 
 #define MAXNAMELEN 256
 
-int send_buf();
+// int send_buf();
+void parse();
 
 int main (int argc,char **argv){
    struct sockaddr_in server;
    struct fgetinfo    *p1;
    struct finfo       p4;
    char               buffer[1000];
-//    struct fgetfrag *p2;
    
-   char *host;
+   char host[1000];
    int sock,port,connected;
-   char usage[100]="port@host\n\0";
-
-
-   /* PARSE COMMAND LINE ARGUMENTS */
-   if (argc<2){
-      fprintf(stderr,"Usage: %s %s",*argv,usage);
-       return 1;
-   }
-   /* Parse port@host */
-   port=atoi(strtok(argv[1],"@"));
-
-   host=strtok(NULL,"@");
+ 
+   parse(argc,argv,host,&port);
+   
    
    /* PRINT PARSED ARGUMENTS */
    printf("Port %i<--\n",port);
    printf("Server %s<--\n",host);
+   
    
    start_client(&sock,&server,port,host);
 
@@ -68,6 +60,9 @@ int main (int argc,char **argv){
             if (p4.file_exist==1){
                //file is open with p4.file_id
                //add to proper struct and start transfer
+               //create target file
+               //start transfer
+               //exit
             }
          }
          connected++;
@@ -82,6 +77,20 @@ int main (int argc,char **argv){
    
    exit (0);
 
+}
+
+
+/* PARSE COMMAND LINE ARGUMENTS */
+void parse(int argc,char **argv,char *host,int *port){
+   char usage[15]="port host\n\0";
+
+   if (argc<3){
+      fprintf(stderr,"Usage: %s %s",*argv,usage);
+      exit (1);
+   }
+
+   *port=atoi(argv[1]);
+   strcpy(host,argv[2]);
 }
 
 
