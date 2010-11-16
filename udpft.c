@@ -186,8 +186,8 @@ void print_ffrag(struct ffrag p){
    printf(" - offset: %i\n",(int)p.offset);
    strncpy(fragment,p.fragment,p.size);
    fragment[p.size]='\0';
-   printf(" - fragment:\n----------\n\n%s\n----------\n",fragment);
-//    printf(" - fragment: Better not to print that");
+//    printf(" - fragment:\n----------\n\n%s\n----------\n",fragment);
+   printf(" - fragment: Better not to print that\n");
    printf(" - size: %i\n",p.size);
    printf(" - md5: %s\n",md5);
 }

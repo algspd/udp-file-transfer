@@ -105,10 +105,12 @@ void parse(int argc,char **argv,char *host,int *port,char *fin,char *fout){
 /* TRANSFER */
 int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int size){
    struct fgetfrag *req;
-   struct ffrag    ans;
+   struct ffrag     ans;
    int offset=0;
+   printf("size=%i\n",size);
+//    exit (1);
    while (offset<size){
-      req=get_frag(file_id,0);
+      req=get_frag(file_id,(long)offset);
       send_buf(sock,server,req,sizeof(*req));
       // FIXME: change by select()
       printf("Now waiting for answer\n");
@@ -120,13 +122,13 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
             // Answer correct
             print_ffrag(ans);
             offset+=ans.size;
-            if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=size){
+
+            if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=ans.size){
                // Fail writing to outfile
             }
             // write to file
          }
       }
-      offset=100000;
    }
    return 0;
 }
