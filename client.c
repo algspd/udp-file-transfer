@@ -114,12 +114,15 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
       printf("Now waiting for answer\n");
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
-            // Answer correct
             printf("Corrupt packet\n");
          }
          else{
+            // Answer correct
             print_ffrag(ans);
             offset+=ans.size;
+            if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=size){
+               // Fail writing to outfile
+            }
             // write to file
          }
       }
