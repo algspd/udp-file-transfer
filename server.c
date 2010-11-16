@@ -19,7 +19,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 #include "udp.h"
 #include "udpft.h"
 
@@ -61,41 +60,47 @@ int main(int argc,char **argv)
 /**************************************************************************/
 
 int process_requests(int s){
-  char buffer[10000];
-  struct sockaddr remote;
-  int rlen;
-  struct fgetinfo p1;
-//   struct fgetinfo *pp1;
-  struct fgetfrag p2;
-  struct finfo *p4;
-  FILE *f;
+   char buffer[10000];
+   struct sockaddr remote;
+   int rlen;
+   int last_file_used=0,N;
+   struct file_s file[100];
+   fra_t fragment;
+   
+   struct fgetinfo p1;
+   struct fgetfrag p2;
+   struct finfo    *p4;
+   struct ffrag    p5;
   
    while (1) {
       rlen = sizeof(remote);
       if((recvfrom(s,buffer,sizeof(buffer),0,(struct sockaddr *)&remote,(socklen_t *)&rlen))>0){
          switch (packetType(buffer)){
             case 1:
-               printf("Tipo 1\n");
                memcpy(&p1,buffer,sizeof(p1));
                if(check_fgetinfo(p1)){
                   printf("Corrupted packet\n");
-                  exit (1);
                }
                else{
                   print_fgetinfo(p1);
                   printf("Now sending answer\n");
                   strcpy(buffer,"path_2");
                   //check if file exists and can be open
-                  printf("El fichero es: %s",p1.file_path);
-                  if((f=(FILE *)fopen(p1.file_path,"r"))==NULL){
+                  printf("El fichero es: %s\n",p1.file_path);
+                  N=last_file_used;
+                  if((file[N].fd=(FILE *)fopen(p1.file_path,"r"))==NULL){
                      // If file not found tell the client
                      p4=get_sinfo(0,0,0);
                   }
                   else{
+                     strncpy(file[N].file_path,p1.file_path,FILENAME_MAX);
+                     file[N].file_id=N;
                      // If file found, tell the client info about it
-                     fseek(f, 0, SEEK_END); // seek to end of file
-                     p4=get_sinfo(1,1,ftell(f));
-                     fseek(f, 0, SEEK_SET); // seek back to beginning of file
+                     fseek(file[N].fd, 0, SEEK_END);      // seek to end of file
+                     file[N].size=ftell(file[N].fd); // get file size
+                     // Has no sense to seek back to beginning of file
+                     p4=get_sinfo(1,file[N].file_id,file[N].size);
+                     N++;
                   }
                   // Send info about the file
                   if(reply(s,&remote,rlen,p4,sizeof(*p4))){
@@ -104,25 +109,25 @@ int process_requests(int s){
                }
                break;
             case 2:
-               printf("Tipo 2\n");
                memcpy(&p2,buffer,sizeof(p2));
                if(check_fgetfrag(p2)){
                   printf("Corrupted packet\n");
                }
                else{
                   print_fgetfrag(p2);
+                  // Send fragment
+                  p5=get_ffrag(p2.file_id,p2.offset,"hola");
                }
                break;
             default:
-               printf("Unknown packet received\n");
-         }
-
-         
+               // If first character of packet is unknown
+               printf("Unknown/corrupt packet received\n");
+         }   
       }
       else{
          printf("Error receiving\n");
       }
-  }
+   }
 }
 
 

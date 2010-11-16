@@ -85,7 +85,7 @@ int check_fgetfrag(struct fgetfrag p){
    strncpy(md5,p.md5,sizeof(p.md5));
    memset(p.md5,0,sizeof(p.md5));
    strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
-   if (strcmp(p.md5,md5)==0){
+   if (strncmp(p.md5,md5,MD5_SIZE)==0){
       return(0);
    }
    return(1);
@@ -118,7 +118,7 @@ int check_fend(struct fend p){
    strncpy(md5,p.md5,MD5_SIZE);
    memset(p.md5,0,sizeof(p.md5));
    strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
-   if (strcmp(p.md5,md5)==0){
+   if (strncmp(p.md5,md5,MD5_SIZE)==0){
       return(0);
    }
    return(1);
@@ -154,7 +154,7 @@ int check_finfo(struct finfo p){
    strncpy(md5,p.md5,MD5_SIZE);
    memset(p.md5,0,sizeof(p.md5));
    strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
-   if (strcmp(p.md5,md5)==0){
+   if (strncmp(p.md5,md5,MD5_SIZE)==0){
       return(0);
    }
    return(1);
@@ -191,7 +191,7 @@ int check_ffrag(struct ffrag p){
    strncpy(md5,p.md5,MD5_SIZE);
    memset(p.md5,0,sizeof(p.md5));
    strncpy(p.md5,calculate_md5(&p,sizeof(p)),MD5_SIZE);
-   if (strcmp(p.md5,md5)==0){
+   if (strncmp(p.md5,md5,MD5_SIZE)==0){
       return(0);
    }
    return(1);

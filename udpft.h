@@ -66,6 +66,14 @@ struct ffrag{
    md5_t md5;
 };
 
+/* FILES */
+struct file_s{
+   FILE  *fd;
+   fsi_t size;
+   char  file_path[FILENAME_MAX];
+   fid_t file_id;
+};
+
 int packetType(char *p);
 
 /* FGETINFO */
