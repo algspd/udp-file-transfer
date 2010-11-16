@@ -39,3 +39,5 @@ clean:
 	rm -f *.o *~
 mrproper: clean
 	rm -f `file *|grep ELF|awk '{print $1}'|sed 's/://'`
+edit:
+	/usr/bin/kate *.c *.h README Makefile > /dev/null 2>&1 &
