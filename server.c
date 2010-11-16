@@ -62,15 +62,14 @@ int main(int argc,char **argv)
 int process_requests(int s){
    char buffer[10000];
    struct sockaddr remote;
-   int rlen;
+   int rlen,retval;
    int last_file_used=0,N;
    struct file_s file[100];
-   fra_t fragment;
    
    struct fgetinfo p1;
    struct fgetfrag p2;
    struct finfo    *p4;
-   struct ffrag    p5;
+   struct ffrag    *p5;
   
    while (1) {
       rlen = sizeof(remote);
@@ -116,7 +115,13 @@ int process_requests(int s){
                else{
                   print_fgetfrag(p2);
                   // Send fragment
-                  p5=get_ffrag(p2.file_id,p2.offset,"hola");
+                  fseek(file[p2.file_id].fd,SEEK_SET,p2.offset);
+                  retval=fread(buffer,sizeof(char),sizeof(fra_t),file[p2.file_id].fd);
+                  printf("Retval es %i\n",retval);
+                  p5=get_ffrag(p2.file_id,p2.offset,buffer,retval);
+                  if(reply(s,&remote,rlen,p5,sizeof(*p5))){
+                     printf("Error sending\n");
+                  }
                }
                break;
             default:

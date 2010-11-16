@@ -68,7 +68,7 @@ int main (int argc,char **argv){
             print_finfo(p4);
             if (p4.file_exist==1){
                // Start transfer
-               retval=transfer(sock,&server,p4.file_id,foutfd);
+               retval=transfer(sock,&server,p4.file_id,foutfd,p4.file_size);
                // Show transfer result
                exit(retval);
             }
@@ -103,27 +103,27 @@ void parse(int argc,char **argv,char *host,int *port,char *fin,char *fout){
 
 
 /* TRANSFER */
-int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd){
+int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int size){
    struct fgetfrag *req;
    struct ffrag    ans;
-   int end=0;
-   while (!end){
-      req=get_frag(file_id,42);
+   int offset=0;
+   while (offset<size){
+      req=get_frag(file_id,0);
       send_buf(sock,server,req,sizeof(*req));
       // FIXME: change by select()
       printf("Now waiting for answer\n");
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             // Answer correct
-            printf("right!!!!\n");
+            printf("Corrupt packet\n");
          }
          else{
-            printf("NOT right\n");
+            print_ffrag(ans);
+            offset+=ans.size;
+            // write to file
          }
       }
-      // check received data
-      // write to file
-      end=1;
+      offset=100000;
    }
    return 0;
 }

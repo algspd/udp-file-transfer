@@ -25,6 +25,7 @@ typedef char md5_t[MD5_SIZE];
 typedef int  fid_t;
 typedef int  fsi_t;
 typedef int  fex_t;
+typedef int  siz_t;
 typedef char fra_t[FRAGMENT_SIZE];
 
 /* CLIENT */
@@ -63,6 +64,7 @@ struct ffrag{
    fid_t file_id;
    off_t offset;
    fra_t fragment;
+   siz_t size;
    md5_t md5;
 };
 
@@ -101,6 +103,6 @@ int check_finfo(struct finfo p);
 
 /* FFRAG */
 
-struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment);
+struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size);
 void print_ffrag(struct ffrag p);
 int check_ffrag(struct ffrag p);
