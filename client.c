@@ -112,7 +112,6 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
    while (offset<size){
       req=get_frag(file_id,(long)offset);
       send_buf(sock,server,req,sizeof(*req));
-      // FIXME: change by select()
       printf("Now waiting for answer\n");
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
