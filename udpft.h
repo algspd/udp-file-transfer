@@ -17,8 +17,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include "md5.h"
-#define FRAGMENT_SIZE 50000
+#define FRAGMENT_SIZE 35000
 
 typedef char typ_t;
 typedef char md5_t[MD5_SIZE];
@@ -106,3 +109,6 @@ int check_finfo(struct finfo p);
 struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size);
 void print_ffrag(struct ffrag p);
 int check_ffrag(struct ffrag p);
+
+
+int server_receive(int s,char *buffer,int buflen,struct sockaddr *remote,int *rlen);

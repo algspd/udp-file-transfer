@@ -15,8 +15,6 @@
    along with "UDP file transfer".  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <string.h>
-
 #include "udpft.h"
 #include "md5.h"
 
@@ -201,3 +199,22 @@ int check_ffrag(struct ffrag p){
    }
    return(1);
 }
+
+
+/**************************************************************************/
+/*       server_receive                                                   */
+/*       return 0 -> recvfrom error                                       */
+/*       else return packetType(buffer)                                   */
+/**************************************************************************/
+int server_receive(int s,char *buffer,int buflen,struct sockaddr *remote,int *rlen){
+   *rlen = sizeof(struct sockaddr);
+   if((recvfrom(s,buffer,buflen,0,(struct sockaddr *)remote,(socklen_t *)rlen))<0){
+//       printf("Liada\n");
+      return 0;
+   }
+   return (packetType(buffer));
+   
+}
+
+
+

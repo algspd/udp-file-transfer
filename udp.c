@@ -46,7 +46,7 @@ int start_server(int port){
 
   if ((s = socket(AF_INET,SOCK_DGRAM,0)) < 0) {
     // Couldn't create socket
-    if (port > PORT_LAST || port < IPPORT_RESERVED) {
+    if (port > PORT_LAST || port < IPPORT_RESERVED || port==0) {
       // Port reserved or out-of-range
       s=-1;
     }
@@ -141,5 +141,13 @@ int reply(int sock,struct sockaddr *remote,int rlen,void *buf,int buflen){
    }
    return(0);
 }
+
+
+
+
+
+
+
+
 
 
