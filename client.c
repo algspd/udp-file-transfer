@@ -30,7 +30,7 @@ int main (int argc,char **argv){
    struct sockaddr_in server;
    struct fgetinfo    *p1;
    struct finfo       p4;
-   char               buffer[1000];
+   char               buffer[10000];
    FILE *foutfd;
    
    char host[1000],fin[FILENAME_MAX],fout[FILENAME_MAX];
@@ -45,7 +45,7 @@ int main (int argc,char **argv){
    
    
    start_client(&sock,&server,port,host);
-
+   
    printf("Starting communication\n\n");
 
    p1=get_info(fin);
@@ -58,6 +58,7 @@ int main (int argc,char **argv){
    
    connected=0;
    while (connected<3){
+      connected++;
       send_buf(sock,&server,p1,sizeof(*p1));
       print_fgetinfo(*p1);
       
@@ -69,19 +70,19 @@ int main (int argc,char **argv){
             if (p4.file_exist==1){
                // Start transfer
                retval=transfer(sock,&server,p4.file_id,foutfd,p4.file_size);
+               fclose(foutfd);
                // Show transfer result
                exit(retval);
             }
             else{
-               printf("Requested file does not exist on server\n");
+               printf("\nERROR: Requested file does not exist on server\n\n");
                exit(1);
             }
          }
-         connected++;
       }
    }
    if (connected==3){
-      printf("Connection error\n");
+      printf("\nERROR: Server not responding\n\n");
       exit(1);
    }
    exit (0);
@@ -108,22 +109,24 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
    struct ffrag     ans;
    int offset=0;
    printf("size=%i\n",size);
-//    exit (1);
    while (offset<size){
       req=get_frag(file_id,(long)offset);
       send_buf(sock,server,req,sizeof(*req));
-      printf("Now waiting for answer\n");
+//       printf("Now waiting for answer\n");
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
+            exit(1);
          }
          else{
             // Answer correct
-            print_ffrag(ans);
+//             print_ffrag(ans);
             offset+=ans.size;
 
             if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=ans.size){
                // Fail writing to outfile
+               printf("Error writing to file");
+               exit(1);
             }
             // write to file
          }

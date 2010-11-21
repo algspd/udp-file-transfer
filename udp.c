@@ -78,12 +78,21 @@ int receive(int s,char *rbuffer,int rbufferlen){
    timeout.tv_usec = 1000;
 
    memset(rbuffer,0,sizeof(rbuffer));
-   // FIXME: select()
    
-   if (recv(s,rbuffer,rbufferlen,MSG_WAITALL) < 0) {
-      return (-1);
+   FD_ZERO(&readfds);
+   FD_SET(s,&readfds);
+   readyfds = readfds;
+   
+   if (select(s+1,&readyfds,NULL,NULL,&timeout) == -1){
+         return(-1);
    }
-   return(0);
+   if (FD_ISSET(s, &readyfds) != 0){
+      if (recv(s,rbuffer,rbufferlen,MSG_WAITALL) < 0) {
+         return (-1);
+      }
+      return(0);
+   }
+   return(-1);
 }
 
 /**************************************************************************/

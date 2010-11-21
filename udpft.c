@@ -168,7 +168,7 @@ struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size){
    p->type=5;
    p->file_id=file_id;
    p->offset=offset;
-   strncpy(p->fragment,fragment,FRAGMENT_SIZE);
+   memcpy(p->fragment,fragment,FRAGMENT_SIZE);
    p->size=size;
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));
@@ -186,7 +186,6 @@ void print_ffrag(struct ffrag p){
    printf(" - offset: %i\n",(int)p.offset);
    strncpy(fragment,p.fragment,p.size);
    fragment[p.size]='\0';
-//    printf(" - fragment:\n----------\n\n%s\n----------\n",fragment);
    printf(" - fragment: Better not to print that\n");
    printf(" - size: %i\n",p.size);
    printf(" - md5: %s\n",md5);

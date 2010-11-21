@@ -83,7 +83,6 @@ int process_requests(int s){
                else{
                   print_fgetinfo(p1);
                   printf("Now sending answer\n");
-                  strcpy(buffer,"path_2");
                   //check if file exists and can be open
                   printf("El fichero es: %s\n",p1.file_path);
                   N=last_file_used;
@@ -116,7 +115,11 @@ int process_requests(int s){
                   print_fgetfrag(p2);
                   // Send fragment
                   fseek(file[p2.file_id].fd,SEEK_SET,p2.offset);
-                  retval=fread(buffer,sizeof(char),sizeof(fra_t),file[p2.file_id].fd);
+//                   memset(buffer,0,sizeof(buffer));
+                  if((retval=fread(buffer,sizeof(char),sizeof(fra_t),file[p2.file_id].fd))<=0){
+                     printf("Nothing read\n");
+                     exit(1);
+                  }
                   printf("Retval es %i\n",retval);
                   p5=get_ffrag(p2.file_id,p2.offset,buffer,retval);
                   if(reply(s,&remote,rlen,p5,sizeof(*p5))){
