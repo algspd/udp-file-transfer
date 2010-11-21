@@ -123,13 +123,11 @@ int process_requests(int s){
                   printf("Corrupted packet\n");
                }
                else{
-//                   print_fgetfrag(p2);
                   // Send fragment
                   fseek(file[p2.file_id].fd,SEEK_SET,p2.offset);
                   if((retval=fread(fragment,sizeof(char),sizeof(fra_t),file[p2.file_id].fd))<=0){
                      printf("Nothing read\n");
                   }
-//                   printf("Retval es %i\n",retval);
                   p5=get_ffrag(p2.file_id,p2.offset,fragment,retval);
                   if(reply(s,&remote,rlen,p5,sizeof(*p5))){
                      printf("Error sending\n");
@@ -146,6 +144,3 @@ int process_requests(int s){
       }
    }
 }
-
-
-
