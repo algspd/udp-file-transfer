@@ -27,7 +27,7 @@
         `make'
   
      - Compilation options:
-        all		Compile server and client
+        all		   Compile server and client
         client		Compile client
         server		Compile server
         clean		Remove object files and so on
