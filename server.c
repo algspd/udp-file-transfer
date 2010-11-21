@@ -31,7 +31,7 @@ int process_requests();
 
 int main(int argc,char **argv)
 {
-   int        s,port;
+   int s,port;
 
    if (argc<2){
    printf("Usage: %s port\n",argv[0]);
@@ -125,7 +125,6 @@ int process_requests(int s){
                   print_fgetfrag(p2);
                   // Send fragment
                   fseek(file[p2.file_id].fd,SEEK_SET,p2.offset);
-//                   memset(buffer,0,sizeof(buffer));
                   if((retval=fread(buffer,sizeof(char),sizeof(fra_t),file[p2.file_id].fd))<=0){
                      printf("Nothing read\n");
                      exit(1);

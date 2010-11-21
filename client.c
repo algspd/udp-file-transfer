@@ -16,13 +16,10 @@
 */
 
 #include <string.h>
-
 #include "udp.h"
 #include "udpft.h"
-
 #define MAXNAMELEN 256
 
-// int send_buf();
 void parse();
 int transfer();
 
@@ -38,16 +35,12 @@ int main (int argc,char **argv){
  
    parse(argc,argv,host,&port,fin,fout);
    
-   
    /* PRINT PARSED ARGUMENTS */
    printf("Port %i<--\n",port);
    printf("Server %s<--\n",host);
-   
-   
-   start_client(&sock,&server,port,host);
-   
-   printf("Starting communication\n\n");
 
+   start_client(&sock,&server,port,host);
+   printf("Starting communication\n\n");
    p1=get_info(fin);
 
    // Try to open out file
@@ -112,7 +105,6 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
    while (offset<size){
       req=get_frag(file_id,(long)offset);
       send_buf(sock,server,req,sizeof(*req));
-//       printf("Now waiting for answer\n");
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
@@ -120,15 +112,12 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
          }
          else{
             // Answer correct
-//             print_ffrag(ans);
             offset+=ans.size;
-
             if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=ans.size){
                // Fail writing to outfile
                printf("Error writing to file");
                exit(1);
             }
-            // write to file
          }
       }
    }
