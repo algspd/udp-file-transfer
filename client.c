@@ -110,15 +110,12 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
       
       send_buf(sock,server,req,sizeof(*req));
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
-printf("recibido\n");
+// printf("recibido\n");
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
             exit(1);
          }
          else{
-      printf("last_asked=%i\n",last_asked);
-      printf("offset=%i\n",offset);
-      printf("ans.offset=%i\n",ans.offset);
             if (ans.offset==last_asked){
             
                printf ("Paquete con off %i\n",(int)ans.offset);
