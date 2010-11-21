@@ -100,23 +100,43 @@ void parse(int argc,char **argv,char *host,int *port,char *fin,char *fout){
 int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int size){
    struct fgetfrag *req;
    struct ffrag     ans;
+   int last_asked=0;
    int offset=0;
    printf("size=%i\n",size);
    while (offset<size){
-      req=get_frag(file_id,(long)offset);
+      req=get_frag(file_id,offset);
+      last_asked=offset;
+
+      
       send_buf(sock,server,req,sizeof(*req));
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
+printf("recibido\n");
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
-//             exit(1);
+            exit(1);
          }
          else{
-            // Answer correct
-            offset+=ans.size;
-            if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=ans.size){
-               // Fail writing to outfile
-               printf("Error writing to file");
-               exit(1);
+      printf("last_asked=%i\n",last_asked);
+      printf("offset=%i\n",offset);
+      printf("ans.offset=%i\n",ans.offset);
+            if (ans.offset==last_asked){
+            
+               printf ("Paquete con off %i\n",(int)ans.offset);
+               
+               // Answer correct
+               if (ans.size<sizeof(ans.fragment)){
+                  printf("--------------ans.size es %i\n",ans.size);
+                  printf("--------------offset es %i\n",offset);
+                  printf("--------------¿Ultimo paquete?\n");
+               }
+
+               fseek(foutfd,SEEK_SET,ans.offset);
+               if(fwrite(ans.fragment,sizeof(char),ans.size,foutfd)!=ans.size){
+                  // Fail writing to outfile
+                  printf("Error writing to file");
+                  exit(1);
+               }
+               offset=ans.offset+ans.size;
             }
          }
       }

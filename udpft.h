@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "md5.h"
-#define FRAGMENT_SIZE 50000
+#define FRAGMENT_SIZE 30000
 
 typedef char typ_t;
 typedef char md5_t[MD5_SIZE];
