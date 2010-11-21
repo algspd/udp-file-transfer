@@ -74,8 +74,8 @@ int start_server(int port){
 int receive(int s,char *rbuffer,int rbufferlen){
    fd_set readfds, readyfds;
    struct timeval timeout;
-   timeout.tv_sec = 0;
-   timeout.tv_usec = 1000;
+   timeout.tv_sec = 1;
+   timeout.tv_usec = 0;
 
    memset(rbuffer,0,sizeof(rbuffer));
    

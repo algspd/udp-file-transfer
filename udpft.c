@@ -168,7 +168,7 @@ struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size){
    p->type=5;
    p->file_id=file_id;
    p->offset=offset;
-   memcpy(p->fragment,fragment,FRAGMENT_SIZE);
+   memcpy(p->fragment,fragment,sizeof(fra_t));
    p->size=size;
    // set md5 to 0
    memset(p->md5,0,sizeof(p->md5));

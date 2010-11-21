@@ -108,7 +108,7 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
-            exit(1);
+//             exit(1);
          }
          else{
             // Answer correct

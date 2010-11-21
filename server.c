@@ -71,6 +71,7 @@ int main(int argc,char **argv)
 
 int process_requests(int s){
    char buffer[10000];
+   fra_t fragment;
    struct sockaddr remote;
    int rlen,retval;
    int last_file_used=0,N;
@@ -125,12 +126,12 @@ int process_requests(int s){
                   print_fgetfrag(p2);
                   // Send fragment
                   fseek(file[p2.file_id].fd,SEEK_SET,p2.offset);
-                  if((retval=fread(buffer,sizeof(char),sizeof(fra_t),file[p2.file_id].fd))<=0){
+                  if((retval=fread(fragment,sizeof(char),sizeof(fra_t),file[p2.file_id].fd))<=0){
                      printf("Nothing read\n");
                      exit(1);
                   }
                   printf("Retval es %i\n",retval);
-                  p5=get_ffrag(p2.file_id,p2.offset,buffer,retval);
+                  p5=get_ffrag(p2.file_id,p2.offset,fragment,retval);
                   if(reply(s,&remote,rlen,p5,sizeof(*p5))){
                      printf("Error sending\n");
                   }
