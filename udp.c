@@ -72,15 +72,18 @@ int start_server(int port){
 /*       receive() waits until buffer is full                             */
 /**************************************************************************/
 int receive(int s,char *rbuffer,int rbufferlen){
-  struct sockaddr_in remote;
-  int rlen;
-  rlen = sizeof(remote);
-  memset(rbuffer,0,sizeof(rbuffer));
-  // FIXME: select()
-  if (recvfrom(s,rbuffer,rbufferlen,MSG_WAITALL,(struct sockaddr *)&remote,(socklen_t *)&rlen) < 0) {
-    return (-1);
-  }
-  return(0);
+   fd_set readfds, readyfds;
+   struct timeval timeout;
+   timeout.tv_sec = 0;
+   timeout.tv_usec = 1000;
+
+   memset(rbuffer,0,sizeof(rbuffer));
+   // FIXME: select()
+   
+   if (recv(s,rbuffer,rbufferlen,MSG_WAITALL) < 0) {
+      return (-1);
+   }
+   return(0);
 }
 
 /**************************************************************************/
