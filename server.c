@@ -33,6 +33,11 @@ int main(int argc,char **argv)
 {
     int        s,port;
 
+    if (argc<2){
+      printf("Usage: %s port\n",argv[0]);
+      exit(1);
+    }
+    
     port=atoi(argv[1]);
     
     /* start server up */
