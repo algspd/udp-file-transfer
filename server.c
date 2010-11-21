@@ -31,33 +31,38 @@ int process_requests();
 
 int main(int argc,char **argv)
 {
-    int        s,port;
+   int        s,port;
 
-    if (argc<2){
+   if (argc<2){
+   printf("Usage: %s port\n",argv[0]);
+   exit(1);
+   }
+   
+   port=atoi(argv[1]);
+   if ((port==0) | (port>PORT_LAST)){
+      printf("Invalid port\n");
       printf("Usage: %s port\n",argv[0]);
-      exit(1);
-    }
-    
-    port=atoi(argv[1]);
-    
-    /* start server up */
-    s = start_server(port);
-    if (s>=0){
-      printf("Server started on port %i\n",port);
-    }
-    if (s==-1){
-      printf("Port reserved or out-of-range\n");
-      exit(1);
-    }
-    if (s==-2){
-      printf("Error creating socket\n");
-      exit(1);
-    }
+   exit(1);
+   }
+   
+   /* start server up */
+   s = start_server(port);
+   if (s>=0){
+   printf("Server started on port %i\n",port);
+   }
+   if (s==-1){
+   printf("Port reserved or out-of-range\n");
+   exit(1);
+   }
+   if (s==-2){
+   printf("Error creating socket\n");
+   exit(1);
+   }
 
-    process_requests(s);
+   process_requests(s);
 
-    fprintf(stderr,"sftp server exiting!\n");
-    return(1);
+   fprintf(stderr,"sftp server exiting!\n");
+   return(1);
 }
 
 /**************************************************************************/
