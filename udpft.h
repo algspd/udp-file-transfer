@@ -30,7 +30,7 @@ typedef int  fsi_t;
 typedef int  fex_t;
 typedef int  siz_t;
 typedef char fra_t[FRAGMENT_SIZE];
-
+ 
 /* CLIENT */
 /* #1 */
 struct fgetinfo{
