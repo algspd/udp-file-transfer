@@ -103,9 +103,14 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
    int last_asked=0;
    int offset=0;
    while (offset<size){
+
+      // fill_window();
+
       req=get_frag(file_id,offset);
       last_asked=offset;
       send_buf(sock,server,req,sizeof(*req));
+
+      // process_answers();
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
