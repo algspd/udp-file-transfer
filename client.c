@@ -111,6 +111,7 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
       send_buf(sock,server,req,sizeof(*req));
 
       // process_answers();
+
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");
