@@ -102,10 +102,20 @@ int transfer(int sock,struct sockaddr_in *server,int file_id,FILE *foutfd,int si
    struct ffrag     ans;
    int last_asked=0;
    int offset=0;
+
+
+   printf("\nvale: %i\n",sizeof(*req));
+   printf("vale: %i\n",sizeof(req->type));
+   printf("vale: %i\n",sizeof(req->file_id));
+   printf("vale: %i\n",sizeof(req->offset));
+   printf("vale: %i\n",sizeof(req->md5));
+
+
    while (offset<size){
       req=get_frag(file_id,offset);
       last_asked=offset;
       send_buf(sock,server,req,sizeof(*req));
+      print_fgetfrag(*req);
       if(receive(sock,(void *)&ans,sizeof(ans))==0){
          if(check_ffrag(ans)){
             printf("Corrupt packet\n");

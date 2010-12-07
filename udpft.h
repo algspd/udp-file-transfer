@@ -42,7 +42,7 @@ struct fgetinfo{
 struct fgetfrag{
    typ_t type;
    fid_t file_id;
-   off_t offset;
+   int offset;
    md5_t md5;
 };
 /* #3 */
@@ -65,7 +65,7 @@ struct finfo{
 struct ffrag{
    typ_t type;
    fid_t file_id;
-   off_t offset;
+   int offset;
    fra_t fragment;
    siz_t size;
    md5_t md5;
@@ -87,7 +87,7 @@ void print_fgetinfo(struct fgetinfo p);
 int check_fgetinfo(struct fgetinfo p);
 
 /* FGETFRAG */
-struct fgetfrag *get_frag(fid_t file_id,off_t offset);
+struct fgetfrag *get_frag(fid_t file_id,int offset);
 void print_fgetfrag(struct fgetfrag p);
 int check_fgetfrag(struct fgetfrag p);
 
@@ -106,7 +106,7 @@ int check_finfo(struct finfo p);
 
 /* FFRAG */
 
-struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size);
+struct ffrag *get_ffrag(fid_t file_id,int offset,fra_t fragment,int size);
 void print_ffrag(struct ffrag p);
 int check_ffrag(struct ffrag p);
 

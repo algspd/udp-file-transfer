@@ -56,7 +56,7 @@ int check_fgetinfo(struct fgetinfo p){
 
 
 /* FGETFRAG */
-struct fgetfrag *get_frag(fid_t file_id,off_t offset){
+struct fgetfrag *get_frag(fid_t file_id,int offset){
    struct fgetfrag *p;
    p=malloc(sizeof(struct fgetfrag));
    p->type=2;
@@ -160,7 +160,7 @@ int check_finfo(struct finfo p){
 
 /* FFRAG */
 
-struct ffrag *get_ffrag(fid_t file_id,off_t offset,fra_t fragment,int size){
+struct ffrag *get_ffrag(fid_t file_id,int offset,fra_t fragment,int size){
    struct ffrag *p;
    p=malloc(sizeof(struct ffrag));
    p->type=5;
